@@ -11,17 +11,41 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
-
-    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+    func scene(
+        _ scene: UIScene, willConnectTo session: UISceneSession,
+        options connectionOptions: UIScene.ConnectionOptions
+    ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
 
-        let viewController = ViewController()
+        let tabBarController = UITabBarController()
+        tabBarController.tabBar.tintColor = UIColor.red
 
-        window?.rootViewController = viewController
+        
+        let firstVC = UINavigationController(
+            rootViewController: SearchViewController())
+        let secondVC = UINavigationController(
+            rootViewController: HomeViewController())
+        let thirdVC = UINavigationController(
+            rootViewController: FavoriteViewController())
+        
+        let selectedSearchIcon = UIImage(systemName: "magnifyingglass", withConfiguration: UIImage.SymbolConfiguration(weight: .bold))
+        let unselectedSearchIcon = UIImage(systemName: "magnifyingglass", withConfiguration: UIImage.SymbolConfiguration(weight: .regular))
+        
+        firstVC.tabBarItem = UITabBarItem(
+            title: "", image: unselectedSearchIcon,
+            selectedImage: selectedSearchIcon)
+        secondVC.tabBarItem = UITabBarItem(
+            title: "", image: UIImage(systemName: "house"),
+            selectedImage: UIImage(systemName: "house.fill"))
+        thirdVC.tabBarItem = UITabBarItem(
+            title: "", image: UIImage(systemName: "heart"),
+            selectedImage: UIImage(systemName: "heart.fill"))
+
+        tabBarController.viewControllers = [firstVC, secondVC, thirdVC]
+        tabBarController.selectedIndex = 1
+
+        window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
     }
 
@@ -53,6 +77,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
     }
 
-
 }
-
